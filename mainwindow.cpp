@@ -74,8 +74,17 @@ void MainWindow::generateRandomSet(QLineEdit *lineEdit)
 
 void MainWindow::updateOutput(Set set)
 {
+    auto temp = set.toString(true);
+    ui->outputWindow->setText(temp);
+}
 
-    ui->outputWindow->setText(set.toString(true));
+bool MainWindow::checkSubsetInSet(Set subset, Set set)
+{
+    for (const int i : subset.getValues())
+    {
+        if (!set.getValues().contains(i)) return false;
+    }
+    return true;
 }
 
 void MainWindow::on_randAButton_clicked()
@@ -130,11 +139,13 @@ void MainWindow::on_symDifferenceButton_clicked()
 
 void MainWindow::on_backspaceButton_clicked()
 {
+    if (ui->inputWindow->text().endsWith("𝕌"))
+        ui->inputWindow->setText(ui->inputWindow->text().removeLast());
     ui->inputWindow->setText(ui->inputWindow->text().removeLast());
     initCalculations();
 }
 
-Set getSetByLetter(QWidget* widget, QString letter, bool isRaw=false)
+Set getSetByLetter(QWidget* widget, QString letter)
 {
     if (letter == "O")
         return Set(QVector<int>{}, Empty);
@@ -144,7 +155,6 @@ Set getSetByLetter(QWidget* widget, QString letter, bool isRaw=false)
     if (lineEdit)
     {
         QString setStr = lineEdit->text();
-        if (isRaw) return setStr;
         return Set(setStr);
     }
     return Set(QVector<int>{}, Empty);
@@ -228,6 +238,7 @@ void MainWindow::initCalculations()
             }
         }
     }
+    qDebug() << elements;
 
     QStringList binaryOperations = {"⋂", "⋃", "∆", "\\"};
 
@@ -266,15 +277,64 @@ void MainWindow::initCalculations()
             }
         }
     }
-    cache.insert(fingerprint, Set(elements[0]));
 
-    qDebug() << "Кэшировано:" << elements[0];
-    updateOutput(elements[0]);
+    Set result = Set(elements[0]);
+    cache.insert(fingerprint, result);
+
+    qDebug() << "Кэшировано:" << result;
+    updateOutput(result);
 }
 
 void MainWindow::on_clearButton_clicked()
 {
     ui->inputWindow->clear();
     initCalculations();
+}
+
+void MainWindow::on_setAInput_textChanged()
+{
+    initCalculations();
+}
+
+void MainWindow::on_setBInput_textChanged()
+{
+    initCalculations();
+}
+
+void MainWindow::on_setCInput_textChanged()
+{
+    initCalculations();
+}
+void MainWindow::on_setDInput_textChanged()
+{
+    initCalculations();
+}
+
+void MainWindow::on_setEInput_textChanged()
+{
+    initCalculations();
+}
+
+void MainWindow::on_elemInput_textChanged(const QString)
+{
+    QString up = ui->elemInput->text();
+    Set down = getSetByLetter(ui->setsGroup, ui->setInput->text().toUpper());
+    bool result;
+    if (ui->operatorCB->currentText() == "∈")
+    {
+        result = checkElemInSet(up.toInt(), down);
+        if (result) ui->checkBox->setText("Принадлежит");
+        else ui->checkBox->setText("Не принадлежит");
+    } else {
+        result = checkSubsetInSet(Set(up), down);
+        if (result) ui->checkBox->setText("Входит");
+        else ui->checkBox->setText("Не входит");
+    }
+    ui->checkBox->setChecked(result);
+}
+
+void MainWindow::on_setInput_textChanged(const QString)
+{
+    on_elemInput_textChanged("");
 }
 

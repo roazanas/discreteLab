@@ -31,6 +31,8 @@ public:
 
     friend QDebug operator<<(QDebug dbg, const Set &set);
     QString toString(bool isFormal=false);
+    QVector<int> getValues() { return values; };
+    void setState(char state) { this->state = state; };
 };
 
 #endif // SET_H

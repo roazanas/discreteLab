@@ -41,6 +41,13 @@ private slots:
     void on_symDifferenceButton_clicked();
     void on_backspaceButton_clicked();
     void on_clearButton_clicked();
+    void on_setAInput_textChanged();
+    void on_setBInput_textChanged();
+    void on_setCInput_textChanged();
+    void on_setDInput_textChanged();
+    void on_setEInput_textChanged();
+    void on_elemInput_textChanged(const QString);
+    void on_setInput_textChanged(const QString);
 
 private:
     Ui::MainWindow *ui;
@@ -48,5 +55,8 @@ private:
     void generateRandomSet(QLineEdit *lineEdit);
     QMap<QString, Set> cache;
     void updateOutput(Set set);
+    bool checkElemInSet(int elem, Set set)
+    { return set.getValues().contains(elem); };
+    bool checkSubsetInSet(Set subset, Set set);
 };
 #endif // MAINWINDOW_H

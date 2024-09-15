@@ -61,8 +61,25 @@ Set Set::intersection(const Set& secondSet) const
         return Set(QVector<int>{}, Empty);
     }
 
-    if (state == Universum) return secondSet;
-    if (secondSet.state == Universum) return *this;
+    if (state == Universum)
+    {
+        QVector<int> result = secondSet.values;
+        for (const int& excludedValue : values)
+        {
+            result.removeAll(excludedValue);
+        }
+        return Set(result, Ordinary);
+    }
+
+    if (secondSet.state == Universum)
+    {
+        QVector<int> result = values;
+        for (const int& excludedValue : secondSet.values)
+        {
+            result.removeAll(excludedValue);
+        }
+        return Set(result, Ordinary);
+    }
 
     QVector<int> result;
     for (const int& val : values)
@@ -73,7 +90,8 @@ Set Set::intersection(const Set& secondSet) const
         }
     }
 
-    if (result.isEmpty()) return Set(QVector<int>{}, Empty);
+    if (result.isEmpty())
+        return Set(QVector<int>{}, Empty);
     return Set(result, Ordinary);
 }
 
@@ -204,8 +222,17 @@ Set::Set()
 
 Set::Set(QString initStr)
 {
+    state = Ordinary;
+    if (initStr.startsWith("Set(Universum"))
+    {
+        state = Universum;
+    } else if (initStr.startsWith("Set(Empty"))
+    {
+        state = Empty;
+    }
     initStr.replace("Set(", "").replace(")", "");
     initStr.replace("{", "").replace("}", "").replace(",", "");
+    initStr.replace("Universum\\", "");
     QStringList items = initStr.split(" ");
     for (const QString &item : items) {
         bool ok;
@@ -214,4 +241,5 @@ Set::Set(QString initStr)
             values.append(value);
         }
     }
+    deleteRepeated();
 }
