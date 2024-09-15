@@ -72,6 +72,12 @@ void MainWindow::generateRandomSet(QLineEdit *lineEdit)
     lineEdit->setText(result);
 }
 
+void MainWindow::updateOutput(Set set)
+{
+
+    ui->outputWindow->setText(set.toString(true));
+}
+
 void MainWindow::on_randAButton_clicked()
 {
     generateRandomSet(ui->setAInput);
@@ -130,6 +136,10 @@ void MainWindow::on_backspaceButton_clicked()
 
 Set getSetByLetter(QWidget* widget, QString letter, bool isRaw=false)
 {
+    if (letter == "O")
+        return Set(QVector<int>{}, Empty);
+    if (letter == "U")
+        return Set(QVector<int>{}, Universum);
     QLineEdit* lineEdit = widget->findChild<QLineEdit*>(QString("set%1Input").arg(letter));
     if (lineEdit)
     {
@@ -140,97 +150,131 @@ Set getSetByLetter(QWidget* widget, QString letter, bool isRaw=false)
     return Set(QVector<int>{}, Empty);
 }
 
-QString complimentCheck(QString& text)
-{
-    int complementIndex = text.indexOf("¬");
-    if (complementIndex == -1 || complementIndex + 1 >= text.length()) { return "NONE"; }
-    QString complementedSetLetter = text[complementIndex + 1];
-    text.remove(complementIndex, 2);
-    return complementedSetLetter;
-}
+// QString complimentCheck(QString& text)
+// {
+//     int complementIndex = text.indexOf("¬");
+//     if (complementIndex == -1 || complementIndex + 1 >= text.length()) { return "NONE"; }
+//     QString complementedSetLetter = text[complementIndex + 1];
+//     text.remove(complementIndex, 2);
+//     return complementedSetLetter;
+// }
 
-QString binaryCheck(QString& text, QString operation)
-{
-    int operationIndex = text.indexOf(operation);
-    if (operationIndex + 1 >= text.length() || operationIndex - 1 < 0) { return "NONE"; }
+// QString binaryCheck(QString& text, QString operation)
+// {
+//     int operationIndex = text.indexOf(operation);
+//     if (operationIndex + 1 >= text.length() || operationIndex - 1 < 0) { return "NONE"; }
 
-    QString leftSetLetter = text[operationIndex - 1];
-    QString rightSetLetter = text[operationIndex + 1];
+//     QString leftSetLetter = text[operationIndex - 1];
+//     QString rightSetLetter = text[operationIndex + 1];
 
-    text.remove(operationIndex - 1, 3);
+//     text.remove(operationIndex - 1, 3);
 
-    return leftSetLetter + rightSetLetter;
-}
+//     return leftSetLetter + rightSetLetter;
+// }
 
 void MainWindow::initCalculations()
 {
-    QString text = ui->inputWindow->text();
-    if (text.length() < 1) qDebug() << Set(QVector<int>{}, Empty);
-    if (text.length() == 1 && QString("ABCDEF").contains(text[0]))
+    QString text = ui->inputWindow->text().replace("𝕌", "U").replace("Ø", "O");
+    if (text.length() < 1)
+    {
+        qDebug() << Set(QVector<int>{}, Empty);
+        updateOutput(Set(QVector<int>{}, Empty));
+        return;
+    }
+    if (text.length() == 1 && QString("ABCDEFUO").contains(text[0]))
     {
         qDebug() << getSetByLetter(ui->setsGroup, text[0]);
+        updateOutput(getSetByLetter(ui->setsGroup, text[0]));
         return;
     }
 
-    QRegularExpression regex("(¬*[ABCDE](¬*[\\⋃⋂\\\\∆]¬*[ABCDE])*)+");
-    if (!regex.match(text).hasMatch()) { return; }
+    QStringList elements;
 
-    QString fingerprint = text;
-    for (QString c : QString("ABCDE"))
+    for (int i = 0; i < text.length(); ++i)
     {
-        QString raw = getSetByLetter(ui->setsGroup, c, true).toString();
-        fingerprint += raw.replace("¬", "1").replace("⋃", "2").replace("⋂", "3").replace("∆", "4").replace("\\", "5");
+        QChar current = text[i];
+
+        if (QString("ABCDEUO").contains(current))
+        {
+            Set currentSet = getSetByLetter(ui->setsGroup, QString(current));
+            elements.append(currentSet.toString());
+        }
+        else if (QString("¬⋂⋃∆\\").contains(current))
+        {
+            elements.append(QString(current));
+        }
     }
+
+    qDebug() << elements;
+    QString fingerprint = elements.join("");
 
     if (cache.contains(fingerprint))
     {
         qDebug() << "Результат из кэша:" << cache.value(fingerprint);
+        updateOutput(cache.value(fingerprint));
         return;
     }
 
-    QString complementSet = complimentCheck(text);
-    Set work = getSetByLetter(ui->setsGroup, complementSet);
-    qDebug() << text;
-    if (complementSet != "NONE")
+    for (int i = 0; i < elements.size(); ++i)
     {
-        work = work.complement();
+        if (elements[i] == "¬")
+        {
+            if (i + 1 < elements.size())
+            {
+                Set set = Set(elements[i + 1]);
+                elements[i + 1] = set.complement().toString();
+                elements.removeAt(i);
+                --i;
+            }
+        }
     }
-    qDebug() << text;
 
-    QString intersectSets = binaryCheck(text, "⋂");
-    if (intersectSets != "NONE")
+    QStringList binaryOperations = {"⋂", "⋃", "∆", "\\"};
+
+    for (const QString &operation : binaryOperations)
     {
-        work = getSetByLetter(ui->setsGroup, intersectSets[0])
-                   .intersection(getSetByLetter(ui->setsGroup, intersectSets[1]));
+        for (int i = 0; i < elements.size(); ++i)
+        {
+            if (elements[i] == operation && i > 0 && i < elements.size() - 1)
+            {
+                Set leftSet = Set(elements[i - 1]);
+                Set rightSet = Set(elements[i + 1]);
+                Set resultSet;
+
+                if (operation == "⋂")
+                {
+                    resultSet = leftSet.intersection(rightSet);
+                }
+                else if (operation == "⋃")
+                {
+                    resultSet = leftSet.unionOperation(rightSet);
+                }
+                else if (operation == "∆")
+                {
+                    resultSet = leftSet.symDifference(rightSet);
+                }
+                else if (operation == "\\")
+                {
+                    resultSet = leftSet.difference(rightSet);
+                }
+
+                elements[i - 1] = resultSet.toString();
+                elements.removeAt(i + 1);
+                elements.removeAt(i);
+                --i;
+                qDebug() << elements;
+            }
+        }
     }
-    qDebug() << text;
+    cache.insert(fingerprint, Set(elements[0]));
 
-    QString unionSets = binaryCheck(text, "⋃");
-    if (unionSets != "NONE")
-    {
-        work = getSetByLetter(ui->setsGroup, unionSets[0])
-                   .unionOperation(getSetByLetter(ui->setsGroup, unionSets[1]));
-    }
-    qDebug() << text;
-
-    QString symDifferenceSets = binaryCheck(text, "∆");
-    if (symDifferenceSets != "NONE")
-    {
-        work = getSetByLetter(ui->setsGroup, symDifferenceSets[0])
-                   .symDifference(getSetByLetter(ui->setsGroup, symDifferenceSets[1]));
-    }
-    qDebug() << text;
-
-    QString differenceSets = binaryCheck(text, "\\");
-    if (differenceSets != "NONE")
-    {
-        work = getSetByLetter(ui->setsGroup, differenceSets[0])
-                   .difference(getSetByLetter(ui->setsGroup, differenceSets[1]));
-    }
-    qDebug() << text;
-
-    cache.insert(fingerprint, work);
-    qDebug() << work;
-
-    if (regex.match(text).hasMatch()) initCalculations();
+    qDebug() << "Кэшировано:" << elements[0];
+    updateOutput(elements[0]);
 }
+
+void MainWindow::on_clearButton_clicked()
+{
+    ui->inputWindow->clear();
+    initCalculations();
+}
+

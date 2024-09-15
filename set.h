@@ -30,7 +30,7 @@ public:
     Set symDifference(const Set& secondSet) const;
 
     friend QDebug operator<<(QDebug dbg, const Set &set);
-    QString toString();
+    QString toString(bool isFormal=false);
 };
 
 #endif // SET_H

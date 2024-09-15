@@ -40,11 +40,13 @@ private slots:
     void on_differenceButton_clicked();
     void on_symDifferenceButton_clicked();
     void on_backspaceButton_clicked();
+    void on_clearButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     void initCalculations();
     void generateRandomSet(QLineEdit *lineEdit);
     QMap<QString, Set> cache;
+    void updateOutput(Set set);
 };
 #endif // MAINWINDOW_H

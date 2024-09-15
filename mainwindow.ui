@@ -21,7 +21,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_7">
+   <layout class="QVBoxLayout" name="verticalLayout_10">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_14">
       <item>
@@ -70,35 +70,76 @@
        </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="backspaceButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>27</width>
-          <height>27</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Cambria Math</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;&lt;</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QPushButton" name="clearButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Cambria Math</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>CA</string>
+          </property>
+          <property name="shortcut">
+           <string>Ctrl+Backspace</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="backspaceButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>27</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Cambria Math</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;&lt;</string>
+          </property>
+          <property name="shortcut">
+           <string>Backspace</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -139,7 +180,7 @@
            </font>
           </property>
           <property name="text">
-           <string/>
+           <string>Ø</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -184,6 +225,9 @@
              </property>
              <property name="text">
               <string>Случайно</string>
+             </property>
+             <property name="shortcut">
+              <string>Alt+A</string>
              </property>
             </widget>
            </item>
@@ -232,6 +276,9 @@
              <property name="text">
               <string>A</string>
              </property>
+             <property name="shortcut">
+              <string>A</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -259,6 +306,9 @@
              </property>
              <property name="text">
               <string>Случайно</string>
+             </property>
+             <property name="shortcut">
+              <string>Alt+B</string>
              </property>
             </widget>
            </item>
@@ -307,6 +357,9 @@
              <property name="text">
               <string>B</string>
              </property>
+             <property name="shortcut">
+              <string>B</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -334,6 +387,9 @@
              </property>
              <property name="text">
               <string>Случайно</string>
+             </property>
+             <property name="shortcut">
+              <string>Alt+C</string>
              </property>
             </widget>
            </item>
@@ -382,6 +438,9 @@
              <property name="text">
               <string>C</string>
              </property>
+             <property name="shortcut">
+              <string>C</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -409,6 +468,9 @@
              </property>
              <property name="text">
               <string>Случайно</string>
+             </property>
+             <property name="shortcut">
+              <string>Alt+D</string>
              </property>
             </widget>
            </item>
@@ -457,6 +519,9 @@
              <property name="text">
               <string>D</string>
              </property>
+             <property name="shortcut">
+              <string>D</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -484,6 +549,9 @@
              </property>
              <property name="text">
               <string>Случайно</string>
+             </property>
+             <property name="shortcut">
+              <string>Alt+E</string>
              </property>
             </widget>
            </item>
@@ -530,6 +598,9 @@
               </font>
              </property>
              <property name="text">
+              <string>E</string>
+             </property>
+             <property name="shortcut">
               <string>E</string>
              </property>
             </widget>
@@ -585,6 +656,9 @@
              </property>
              <property name="text">
               <string>Ø</string>
+             </property>
+             <property name="shortcut">
+              <string>O</string>
              </property>
             </widget>
            </item>
@@ -650,6 +724,9 @@
                <width>16</width>
                <height>16</height>
               </size>
+             </property>
+             <property name="shortcut">
+              <string>U</string>
              </property>
             </widget>
            </item>
@@ -729,6 +806,9 @@
                <property name="text">
                 <string>¬</string>
                </property>
+               <property name="shortcut">
+                <string>1</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -783,6 +863,9 @@
                </property>
                <property name="text">
                 <string>⋂</string>
+               </property>
+               <property name="shortcut">
+                <string>2</string>
                </property>
               </widget>
              </item>
@@ -839,6 +922,9 @@
                <property name="text">
                 <string>⋃</string>
                </property>
+               <property name="shortcut">
+                <string>3</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -894,6 +980,9 @@
                <property name="text">
                 <string>\</string>
                </property>
+               <property name="shortcut">
+                <string>4</string>
+               </property>
               </widget>
              </item>
             </layout>
@@ -948,6 +1037,9 @@
                </property>
                <property name="text">
                 <string>∆</string>
+               </property>
+               <property name="shortcut">
+                <string>5</string>
                </property>
               </widget>
              </item>

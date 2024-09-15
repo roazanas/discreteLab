@@ -73,6 +73,7 @@ Set Set::intersection(const Set& secondSet) const
         }
     }
 
+    if (result.isEmpty()) return Set(QVector<int>{}, Empty);
     return Set(result, Ordinary);
 }
 
@@ -141,35 +142,40 @@ Set Set::symDifference(const Set& secondSet) const
     return unionSet.difference(intersect);
 }
 
-QString Set::toString()
+QString Set::toString(bool isFormal)
 {
     QString result = "";
     switch (state)
     {
     case Empty:
-        result += "Set(Empty)";
+        if (isFormal) result += "Ø";
+        else result += "Set(Empty)";
         break;
 
     case Universum:
-        result += "Set(Universum\\{";
+        if (isFormal) result += "𝕌\\{";
+        else result += "Set(Universum\\{";
         for (int i = 0; i < values.size(); ++i)
         {
             result += QString("%1").arg(values[i]);
             if (i != values.size() - 1)
                 result += ", ";
         }
-        result += "})";
+        if (isFormal) result += "}";
+        else result += "})";
         break;
 
     default:
-        result += "Set(";
+        if (isFormal) result += "{";
+        else result += "Set(";
         for (int i = 0; i < values.size(); ++i)
         {
             result += QString("%1").arg(values[i]);
             if (i != values.size() - 1)
                 result += ", ";
         }
-        result += ")";
+        if (isFormal) result += "}";
+        else result += ")";
         break;
 
     }
@@ -198,6 +204,7 @@ Set::Set()
 
 Set::Set(QString initStr)
 {
+    initStr.replace("Set(", "").replace(")", "");
     initStr.replace("{", "").replace("}", "").replace(",", "");
     QStringList items = initStr.split(" ");
     for (const QString &item : items) {
