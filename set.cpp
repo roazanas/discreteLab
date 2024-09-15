@@ -4,6 +4,7 @@ Set::Set(const QVector<int>& initValues, char state)
 {
     this->values = initValues;
     this->state = state;
+    correctState();
     deleteRepeated();
 }
 
@@ -163,6 +164,16 @@ Set Set::symDifference(const Set& secondSet) const
 QString Set::toString(bool isFormal)
 {
     QString result = "";
+
+    if (values.isEmpty() && state == Ordinary)
+    {
+        if (isFormal)
+            result += "Ø";
+        else
+            result += "Set(Empty)";
+        return result;
+    }
+
     switch (state)
     {
     case Empty:
@@ -195,7 +206,6 @@ QString Set::toString(bool isFormal)
         if (isFormal) result += "}";
         else result += ")";
         break;
-
     }
     return result;
 }
@@ -215,6 +225,23 @@ void Set::deleteRepeated()
     }
 }
 
+void Set::correctState()
+{
+    if (state == Universum)
+    {
+        return;
+    }
+
+    if (values.isEmpty())
+    {
+        state = Empty;
+    }
+    else
+    {
+        state = Ordinary;
+    }
+}
+
 Set::Set()
 {
     Set(QVector<int>{}, Empty);
@@ -222,22 +249,25 @@ Set::Set()
 
 Set::Set(QString initStr)
 {
-    state = Ordinary;
-    if (initStr.startsWith("Set(Universum"))
+    if (initStr.contains("Universum"))
     {
         state = Universum;
-    } else if (initStr.startsWith("Set(Empty"))
-    {
-        state = Empty;
+        initStr.replace("Universum\\{", "").replace("}", "");
     }
-    initStr.replace("Set(", "").replace(")", "");
-    initStr.replace("{", "").replace("}", "").replace(",", "");
-    initStr.replace("Universum\\", "");
+    else
+    {
+        state = Ordinary;
+    }
+
+    initStr.replace("Set(", "").replace(")", "").replace("{", "").replace("}", "").replace(",", "");
+
     QStringList items = initStr.split(" ");
-    for (const QString &item : items) {
+    for (const QString &item : items)
+    {
         bool ok;
         int value = item.toInt(&ok);
-        if (ok) {
+        if (ok)
+        {
             values.append(value);
         }
     }

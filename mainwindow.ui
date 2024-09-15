@@ -18,7 +18,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Калькулятор множеств</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -181,6 +181,9 @@
           </property>
           <property name="text">
            <string>Ø</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="readOnly">
            <bool>true</bool>
@@ -608,6 +611,16 @@
           </layout>
          </item>
          <item>
+          <widget class="QPushButton" name="randomAllButton">
+           <property name="text">
+            <string>Задать все множества случайно</string>
+           </property>
+           <property name="shortcut">
+            <string>Alt+R</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -752,6 +765,13 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>1</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label">
                <property name="enabled">
                 <bool>true</bool>
@@ -816,6 +836,13 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>2</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label_2">
                <property name="font">
                 <font>
@@ -874,6 +901,13 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_9">
              <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>3</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="label_3">
                <property name="font">
                 <font>
@@ -930,65 +964,14 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
-              <widget class="QLabel" name="label_4">
-               <property name="font">
-                <font>
-                 <family>Segoe UI</family>
-                </font>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
+              <widget class="QLabel" name="label_15">
                <property name="text">
-                <string>Разность</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="indent">
-                <number>-1</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="differenceButton">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>27</width>
-                 <height>27</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>27</width>
-                 <height>27</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Cambria Math</family>
-                </font>
-               </property>
-               <property name="text">
-                <string>\</string>
-               </property>
-               <property name="shortcut">
                 <string>4</string>
                </property>
               </widget>
              </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
               <widget class="QLabel" name="label_5">
                <property name="font">
@@ -1037,6 +1020,71 @@
                </property>
                <property name="text">
                 <string>∆</string>
+               </property>
+               <property name="shortcut">
+                <string>4</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>5</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                </font>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::LeftToRight</enum>
+               </property>
+               <property name="text">
+                <string>Разность</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="indent">
+                <number>-1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="differenceButton">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>27</width>
+                 <height>27</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>27</width>
+                 <height>27</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Cambria Math</family>
+                </font>
+               </property>
+               <property name="text">
+                <string>\</string>
                </property>
                <property name="shortcut">
                 <string>5</string>
@@ -1187,38 +1235,18 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_8">
                 <item>
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string>-</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QCheckBox" name="checkBox">
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
                   <property name="layoutDirection">
-                   <enum>Qt::RightToLeft</enum>
+                   <enum>Qt::LeftToRight</enum>
                   </property>
                   <property name="text">
                    <string>Введите данные</string>
                   </property>
                   <property name="checkable">
                    <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>-</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -1236,6 +1264,34 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>731</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Помощь</string>
+    </property>
+    <addaction name="actionHotkeys"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="actionHotkeys">
+   <property name="text">
+    <string>Горячие клавиши</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>О создателе</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

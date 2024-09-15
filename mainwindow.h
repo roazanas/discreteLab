@@ -5,6 +5,7 @@
 #include <QRegularExpressionValidator>
 #include <QRandomGenerator>
 #include <QLineEdit>
+#include <QMessageBox>
 #include "set.h"
 
 QT_BEGIN_NAMESPACE
@@ -48,6 +49,11 @@ private slots:
     void on_setEInput_textChanged();
     void on_elemInput_textChanged(const QString);
     void on_setInput_textChanged(const QString);
+    void on_operatorCB_currentIndexChanged(int);
+    void on_actionAbout_triggered();
+    void on_actionHotkeys_triggered();
+
+    void on_randomAllButton_clicked();
 
 private:
     Ui::MainWindow *ui;

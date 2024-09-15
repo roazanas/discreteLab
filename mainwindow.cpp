@@ -59,7 +59,7 @@ void MainWindow::on_emptyButton_clicked()
 void MainWindow::generateRandomSet(QLineEdit *lineEdit)
 {
     QString result = "{";
-    int count = QRandomGenerator::global()->bounded(2, 9);
+    int count = QRandomGenerator::global()->bounded(3, 10);
     for (int i = 0; i < count; i++)
     {
         result += QString("%1, ").arg(QRandomGenerator::global()->bounded(-10, 10));
@@ -294,25 +294,30 @@ void MainWindow::on_clearButton_clicked()
 void MainWindow::on_setAInput_textChanged()
 {
     initCalculations();
+    on_elemInput_textChanged("");
 }
 
 void MainWindow::on_setBInput_textChanged()
 {
     initCalculations();
+    on_elemInput_textChanged("");
 }
 
 void MainWindow::on_setCInput_textChanged()
 {
     initCalculations();
+    on_elemInput_textChanged("");
 }
 void MainWindow::on_setDInput_textChanged()
 {
     initCalculations();
+    on_elemInput_textChanged("");
 }
 
 void MainWindow::on_setEInput_textChanged()
 {
     initCalculations();
+    on_elemInput_textChanged("");
 }
 
 void MainWindow::on_elemInput_textChanged(const QString)
@@ -336,5 +341,43 @@ void MainWindow::on_elemInput_textChanged(const QString)
 void MainWindow::on_setInput_textChanged(const QString)
 {
     on_elemInput_textChanged("");
+}
+
+void MainWindow::on_operatorCB_currentIndexChanged(int)
+{
+    on_elemInput_textChanged("");
+}
+
+void MainWindow::on_actionHotkeys_triggered()
+{
+    QMessageBox::information(this, "Горячие клавиши",
+                             "A, B, C, D, E - ввод множеств в окно\n"
+                             "1, 2, 3, 4, 5 - ввод операций в окно\n"
+                             "U, O - ввод универсума и пустого множества в окно\n"
+                             "Alt+A - задать случайные данные во множество A\n"
+                             "Alt+B - задать случайные данные во множество B\n"
+                             "Alt+C - задать случайные данные во множество C\n"
+                             "Alt+D - задать случайные данные во множество D\n"
+                             "Alt+E - задать случайные данные во множество E\n"
+                             "Alt+R - задать все множества случайно\n"
+                             "Backspace - стереть последний символ в окне ввода\n"
+                             "Ctrl+Backspace - стереть всё в окне ввода");
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, "roazanas / Nikita Zhulanov"
+                             "\n\n",
+                       "Этот проект разработан студентом 2 курса в качестве реализации лабораторной работы №1 по дискретной математике.\n"
+                       "ПНИПУ, ЭТФ, РИС-23-1б (лучшая группа)");
+}
+
+void MainWindow::on_randomAllButton_clicked()
+{
+    on_randAButton_clicked();
+    on_randBButton_clicked();
+    on_randCButton_clicked();
+    on_randDButton_clicked();
+    on_randEButton_clicked();
 }
 

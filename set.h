@@ -33,6 +33,7 @@ public:
     QString toString(bool isFormal=false);
     QVector<int> getValues() { return values; };
     void setState(char state) { this->state = state; };
+    void correctState();
 };
 
 #endif // SET_H
