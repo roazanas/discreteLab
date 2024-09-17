@@ -39,7 +39,7 @@ QDebug operator<<(QDebug dbg, const Set &set)
     return dbg.space();
 }
 
-Set Set::complement() const
+Set Set::complement()
 {
     switch (state)
     {
@@ -55,7 +55,7 @@ Set Set::complement() const
     return Set(QVector<int>{}, Empty);
 }
 
-Set Set::intersection(const Set& secondSet) const
+Set Set::intersection(Set& secondSet)
 {
     if (state == Empty || secondSet.state == Empty)
     {
@@ -65,7 +65,7 @@ Set Set::intersection(const Set& secondSet) const
     if (state == Universum)
     {
         QVector<int> result = secondSet.values;
-        for (const int& excludedValue : values)
+        for (int& excludedValue : values)
         {
             result.removeAll(excludedValue);
         }
@@ -75,7 +75,7 @@ Set Set::intersection(const Set& secondSet) const
     if (secondSet.state == Universum)
     {
         QVector<int> result = values;
-        for (const int& excludedValue : secondSet.values)
+        for (int& excludedValue : secondSet.values)
         {
             result.removeAll(excludedValue);
         }
@@ -83,7 +83,7 @@ Set Set::intersection(const Set& secondSet) const
     }
 
     QVector<int> result;
-    for (const int& val : values)
+    for (int& val : values)
     {
         if (secondSet.values.contains(val))
         {
@@ -96,7 +96,7 @@ Set Set::intersection(const Set& secondSet) const
     return Set(result, Ordinary);
 }
 
-Set Set::unionOperation(const Set& secondSet) const
+Set Set::unionOperation(Set& secondSet)
 {
     if (state == Universum || secondSet.state == Universum)
     {
@@ -107,7 +107,7 @@ Set Set::unionOperation(const Set& secondSet) const
     if (secondSet.state == Empty) return *this;
 
     QVector<int> result = values;
-    for (const int& val : secondSet.values)
+    for (int& val : secondSet.values)
     {
         if (!result.contains(val))
         {
@@ -118,7 +118,7 @@ Set Set::unionOperation(const Set& secondSet) const
     return Set(result, Ordinary);
 }
 
-Set Set::difference(const Set& secondSet) const
+Set Set::difference(Set& secondSet)
 {
     if (this->state == Empty || secondSet.state == Universum)
     {
@@ -154,7 +154,7 @@ Set Set::difference(const Set& secondSet) const
     return Set(result, Ordinary);
 }
 
-Set Set::symDifference(const Set& secondSet) const
+Set Set::symDifference(Set& secondSet)
 {
     Set intersect = intersection(secondSet);
     Set unionSet = unionOperation(secondSet);
@@ -262,7 +262,7 @@ Set::Set(QString initStr)
     initStr.replace("Set(", "").replace(")", "").replace("{", "").replace("}", "").replace(",", "");
 
     QStringList items = initStr.split(" ");
-    for (const QString &item : items)
+    for (QString &item : items)
     {
         bool ok;
         int value = item.toInt(&ok);

@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->setInput->setValidator(new QRegularExpressionValidator(QRegularExpression("[ABCDEabcde]"), this));
+    ui->setInput->setValidator(new QRegularExpressionValidator(QRegularExpression("[ABCDEabcdeФИСВУфисву]"), this));
 }
 
 MainWindow::~MainWindow()
@@ -340,7 +340,13 @@ void MainWindow::on_elemInput_textChanged(const QString)
 
 void MainWindow::on_setInput_textChanged(const QString)
 {
-    ui->setInput->setText(ui->setInput->text().toUpper());
+    QString text = ui->setInput->text();
+    if      (text.toUpper() == "Ф") text = "A";
+    else if (text.toUpper() == "И") text = "B";
+    else if (text.toUpper() == "С") text = "C";
+    else if (text.toUpper() == "В") text = "D";
+    else if (text.toUpper() == "У") text = "E";
+    ui->setInput->setText(text.toUpper());
     on_elemInput_textChanged("");
 }
 

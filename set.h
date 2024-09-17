@@ -20,14 +20,14 @@ private:
 
 public:
     Set();
-    Set(const QString initStr);
+    Set(QString initStr);
     Set(const QVector<int>& initValues, char state = Ordinary);
 
-    Set complement() const;
-    Set intersection(const Set& secondSet) const;
-    Set unionOperation(const Set& secondSet) const;
-    Set difference(const Set& secondSet) const;
-    Set symDifference(const Set& secondSet) const;
+    Set complement();
+    Set intersection(Set& secondSet);
+    Set unionOperation(Set& secondSet);
+    Set difference(Set& secondSet);
+    Set symDifference(Set& secondSet);
 
     friend QDebug operator<<(QDebug dbg, const Set &set);
     QString toString(bool isFormal=false);
