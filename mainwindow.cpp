@@ -323,23 +323,24 @@ void MainWindow::on_setEInput_textChanged()
 void MainWindow::on_elemInput_textChanged(const QString)
 {
     QString up = ui->elemInput->text();
-    Set down = getSetByLetter(ui->setsGroup, ui->setInput->text().toUpper());
+    Set down = getSetByLetter(ui->setsGroup, ui->setInput->text());
     bool result;
     if (ui->operatorCB->currentText() == "∈")
     {
         result = checkElemInSet(up.toInt(), down);
-        if (result) ui->checkBox->setText("Принадлежит");
-        else ui->checkBox->setText("Не принадлежит");
+        if (result) ui->progressLabel->setText("Принадлежит");
+        else ui->progressLabel->setText("Не принадлежит");
     } else {
         result = checkSubsetInSet(Set(up), down);
-        if (result) ui->checkBox->setText("Входит");
-        else ui->checkBox->setText("Не входит");
+        if (result) ui->progressLabel->setText("Входит");
+        else ui->progressLabel->setText("Не входит");
     }
-    ui->checkBox->setChecked(result);
+    ui->progressBar->setValue(result);
 }
 
 void MainWindow::on_setInput_textChanged(const QString)
 {
+    ui->setInput->setText(ui->setInput->text().toUpper());
     on_elemInput_textChanged("");
 }
 
