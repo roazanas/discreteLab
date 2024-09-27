@@ -231,10 +231,30 @@ void MainWindow::initCalculations()
         {
             if (i + 1 < elements.size())
             {
-                Set set = Set(elements[i + 1]);
-                elements[i + 1] = set.complement().toString();
-                elements.removeAt(i);
-                --i;
+                if (elements[i + 1] != "¬")
+                {
+                    Set set = Set(elements[i + 1]);
+                    elements[i + 1] = set.complement().toString();
+                    elements.removeAt(i);
+                    --i;
+                }
+                else
+                {
+                    int j = i;
+                    while (elements[j + 1] == "¬")
+                    {
+                        ++j;
+                        if (j + 1 == elements.size()) return;
+                    }
+                    while (j != i)
+                    {
+                        Set set = Set(elements[j + 1]);
+                        elements[j + 1] = set.complement().toString();
+                        elements.removeAt(j);
+                        --j;
+                    }
+                    --i;
+                }
             }
         }
     }

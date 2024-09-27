@@ -98,9 +98,24 @@ Set Set::intersection(Set& secondSet)
 
 Set Set::unionOperation(Set& secondSet)
 {
-    if (state == Universum || secondSet.state == Universum)
+    if (secondSet.state == Universum)
     {
-        return Set(QVector<int>{}, Universum);
+        QVector<int> result = secondSet.values;
+        for (int& excludedValue : values)
+        {
+            result.removeAll(excludedValue);
+        }
+        return Set(result, Universum);
+    }
+
+    if (state == Universum)
+    {
+        QVector<int> result = values;
+        for (int& excludedValue : secondSet.values)
+        {
+            result.removeAll(excludedValue);
+        }
+        return Set(result, Universum);
     }
 
     if (state == Empty) return secondSet;
